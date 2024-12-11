@@ -1,17 +1,44 @@
 {
-    "private": true,
-    "type": "module",
-    "scripts": {
-        "build": "vite build",
-        "dev": "vite"
-    },
-    "devDependencies": {
-        "autoprefixer": "^10.4.20",
-        "axios": "^1.7.4",
-        "concurrently": "^9.0.1",
-        "laravel-vite-plugin": "^1.0",
-        "postcss": "^8.4.47",
-        "tailwindcss": "^3.4.13",
-        "vite": "^5.0"
-    }
+  "private": true,
+  "scripts": {
+    "dev": "npm run development",
+    "development": "mix",
+    "watch": "mix watch",
+    "watch-poll": "mix watch -- --watch-options-poll=1000",
+    "hot": "mix watch --hot",
+    "prod": "npm run production",
+    "production": "mix --production"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-react": "^7.26.3",
+    "@babel/preset-typescript": "^7.26.0",
+    "axios": "^0.21",
+    "babel-loader": "^9.2.1",
+    "bootstrap": "^4.6",
+    "chokidar": "^4.0.1",
+    "cross-env": "^7.0",
+    "css-loader": "^7.1.2",
+    "jquery": "^3.6",
+    "laravel-mix": "^6.0.6",
+    "lodash": "^4.17",
+    "popper.js": "^1.16",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "resolve-url-loader": "^3.1.5",
+    "style-loader": "^4.0.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.2",
+    "autoprefixer": "^10.4.20",
+    "chart.js": "^4.4.7",
+    "postcss-import": "^16.1.0",
+    "postcss-nested": "^7.0.2",
+    "postcss-simple-vars": "^7.0.1",
+    "react-chartjs-2": "^5.2.0"
+  }
 }
