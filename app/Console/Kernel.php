@@ -9,8 +9,7 @@ class Kernel extends ConsoleKernel
 {
     protected function schedule(Schedule $schedule)
     {
-        // 주기적으로 주식 데이터를 가져오는 명령어 설정
-        $schedule->command('stocks:fetch')->daily(); // 매일 주식 데이터 갱신
+        $schedule->command('update:stock-data')->dailyAt('00:00'); // 매일 자정에 데이터 업데이트
     }
 
     protected function commands()

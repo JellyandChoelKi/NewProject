@@ -10,34 +10,7 @@ class ApiController extends Controller
 {
     public function getStockData()
     {
-        $apiKey = 'N1ZSZEZEYFVP3LI5'; // 발급받은 API 키로 교체
-        $client = new Client();
-        $symbols = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'FB'];
-        
-        foreach ($symbols as $symbol) {
-            $response = $client->get('https://www.alphavantage.co/query', [
-                'query' => [
-                    'function' => 'TIME_SERIES_DAILY',
-                    'symbol' => $symbol,
-                    'apikey' => $apiKey,
-                ]
-            ]);
-
-            $data = json_decode($response->getBody(), true);
-            $timeSeries = $data['Time Series (Daily)'] ?? [];
-
-            foreach ($timeSeries as $date => $info) {
-                DB::table('stock')->updateOrInsert(
-                    ['symbol' => $symbol, 'date' => $date],
-                    ['close' => $info['4. close']]
-                );
-            }
-
-            // 요청 간 대기 시간 추가 (1초)
-            sleep(1);
-        }
-
-        // 데이터 조회 및 반환
+        // 데이터베이스에서 주식 데이터 조회
         $stocks = DB::table('stock')
                     ->select('symbol', 'date', 'close')
                     ->orderBy('date', 'desc')
@@ -47,15 +20,34 @@ class ApiController extends Controller
         return response()->json($stocks);
     }
 
-    public function getBitcoinData()
+    public function getTopFiveCryptocurrencies()
     {
-        // 비트코인 데이터 가져오기 예제
         try {
-            $client = new \GuzzleHttp\Client();
-            $response = $client->get('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
+            $client = new Client(['verify' => false]);
+            $response = $client->get('https://api.coingecko.com/api/v3/coins/markets', [
+                'query' => [
+                    'vs_currency' => 'usd',
+                    'order' => 'market_cap_desc',
+                    'per_page' => 5,
+                    'page' => 1
+                ]
+            ]);
             $data = json_decode($response->getBody(), true);
 
-            return response()->json($data);
+            $topFiveCryptos = array_map(function($crypto) {
+                return [
+                    'symbol' => $crypto['symbol'],
+                    'name' => $crypto['name'],
+                    'current_price' => $crypto['current_price'],
+                    'market_cap' => $crypto['market_cap'],
+                    '24h_high' => $crypto['high_24h'],
+                    '24h_low' => $crypto['low_24h'],
+                    '24h_change' => $crypto['price_change_percentage_24h'],
+                    'last_updated' => $crypto['last_updated']
+                ];
+            }, $data);
+
+            return response()->json($topFiveCryptos);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

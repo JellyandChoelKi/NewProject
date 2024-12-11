@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>금융시장 분석</title>
+        <title>Investment Analysis</title>
         <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     </head>
     <body>

@@ -6,7 +6,7 @@ const FinancialAnalysis: React.FC = () => {
     return (
         <div className="container">
             <header>
-                <h1>금융시장 분석</h1>
+                <h1>Investment Analysis</h1>
             </header>
             <div className="main-content">
                 <div className="section">

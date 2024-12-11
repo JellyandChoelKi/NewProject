@@ -1,26 +1,55 @@
 import React, { useState, useEffect } from 'react';
-import axios, { AxiosResponse } from 'axios';
-import { BitcoinData } from '../types/bitcoin';
+import axios from 'axios';
+import { CryptocurrencyData } from '../types/bitcoin';
+import { Line } from 'react-chartjs-2';
+import 'chart.js/auto';
+import '../../css/BitcoinDataComponent.css';
 
 const BitcoinDataComponent: React.FC = () => {
-    const [bitcoinData, setBitcoinData] = useState<BitcoinData | null>(null);
+    const [cryptoData, setCryptoData] = useState<CryptocurrencyData[]>([]);
 
     useEffect(() => {
-        axios.get<BitcoinData>('/api/bitcoin')
-            .then((response: AxiosResponse<BitcoinData>) => setBitcoinData(response.data))
-            .catch((error: Error) => console.error('Error fetching bitcoin data:', error));
+        axios.get('/api/cryptocurrencies')
+            .then(response => {
+                setCryptoData(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
     }, []);
 
+    const prepareChartData = (crypto: CryptocurrencyData) => {
+        return {
+            labels: ['Current Price', '24h High', '24h Low'],
+            datasets: [
+                {
+                    label: `${crypto.name} Prices`,
+                    data: [crypto.current_price, crypto['24h_high'], crypto['24h_low']],
+                    fill: false,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                }
+            ]
+        };
+    };
+
     return (
-        <div>
-            <h2>비트코인 데이터</h2>
-            {bitcoinData ? (
-                <pre>{JSON.stringify(bitcoinData, null, 2)}</pre>
+        <div className="bitcoin-container">
+            <h2>Coin</h2>
+            {cryptoData.length ? (
+                <div className="bitcoin-data">
+                    {cryptoData.map((crypto, index) => (
+                        <div key={index} className="crypto-chart">
+                            <h3>{crypto.name} ({crypto.symbol.toUpperCase()})</h3>
+                            <Line data={prepareChartData(crypto)} />
+                        </div>
+                    ))}
+                </div>
             ) : (
                 <p>Loading...</p>
             )}
         </div>
     );
-};
+}
 
 export default BitcoinDataComponent;

@@ -35,7 +35,7 @@ const StockDataComponent: React.FC = () => {
 
     return (
         <div>
-            <h2>상위 주식 데이터</h2>
+            <h2>overseas stock</h2>
             {stockData ? (
                 <>
                     {Object.keys(stockData).map(symbol => (

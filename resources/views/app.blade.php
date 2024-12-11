@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>실시간 주식 및 비트코인 현황</title>
+    <title>MinchoelKi</title>
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 </head>
 <body>

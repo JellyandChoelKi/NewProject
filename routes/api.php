@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController;
 
-Route::get('/stocks', [ApiController::class, 'getStockData']);
+Route::get('/cryptocurrencies', [ApiController::class, 'getTopFiveCryptocurrencies']);
