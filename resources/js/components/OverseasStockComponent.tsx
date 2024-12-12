@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
+import { overseasStockSymbols } from '../types/stock.d';
 
 const StockDataComponent: React.FC = () => {
     const [stockData, setStockData] = useState<any>(null);
@@ -23,7 +24,7 @@ const StockDataComponent: React.FC = () => {
             labels: labels,
             datasets: [
                 {
-                    label: `${symbol} 주식 가격 (닫기)`,
+                    label: `${overseasStockSymbols[symbol]} 주식 가격 (닫기)`,
                     data: closePrices,
                     fill: false,
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
@@ -40,7 +41,7 @@ const StockDataComponent: React.FC = () => {
                 <>
                     {Object.keys(stockData).map(symbol => (
                         <div key={symbol}>
-                            <h3>{symbol}</h3>
+                            <h3>{overseasStockSymbols[symbol]}</h3>
                             <Line data={prepareChartData(symbol)} />
                         </div>
                     ))}

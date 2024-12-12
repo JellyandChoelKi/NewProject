@@ -10,6 +10,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('update:stock-data')->dailyAt('00:00'); // 매일 자정에 데이터 업데이트
+        $schedule->command('update:domestic-stock-data')->dailyAt('00:30');
     }
 
     protected function commands()

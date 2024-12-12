@@ -1,6 +1,7 @@
 import React from 'react';
+import StockDataComponent from './OverseasStockComponent';
+import DomesticStockComponent from './DomesticStockComponent';
 import BitcoinDataComponent from './BitcoinDataComponent';
-import StockDataComponent from './StockDataComponent';
 
 const FinancialAnalysis: React.FC = () => {
     return (
@@ -11,6 +12,9 @@ const FinancialAnalysis: React.FC = () => {
             <div className="main-content">
                 <div className="section">
                     <StockDataComponent />
+                </div>
+                <div className="section">
+                    <DomesticStockComponent />
                 </div>
                 <div className="section">
                     <BitcoinDataComponent />

@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use GuzzleHttp\Client;
-
+use Illuminate\Support\Facades\DB;
 class ApiController extends Controller
 {
     public function getStockData()
@@ -19,6 +18,18 @@ class ApiController extends Controller
 
         return response()->json($stocks);
     }
+
+    public function getDomesticStockData()
+    {
+        $stocks = DB::table('domestic_stocks')
+                    ->select('symbol', 'date', 'close')
+                    ->orderBy('date', 'desc')
+                    ->get()
+                    ->groupBy('symbol');
+
+        return response()->json($stocks);
+    }
+
 
     public function getTopFiveCryptocurrencies()
     {
@@ -53,3 +64,5 @@ class ApiController extends Controller
         }
     }
 }
+
+

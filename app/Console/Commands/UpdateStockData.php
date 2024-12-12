@@ -19,7 +19,9 @@ class UpdateStockData extends Command
     public function handle()
     {
         $apiKey = 'N1ZSZEZEYFVP3LI5'; // 발급받은 API 키로 교체
-        $client = new Client();
+        $client = new Client([
+            'verify' => base_path('cacert.pem'),
+        ]);
         $symbols = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'FB'];
         
         foreach ($symbols as $symbol) {
