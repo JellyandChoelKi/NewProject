@@ -19,7 +19,7 @@ class UpdateDomesticStockData extends Command
     public function handle()
     {
         $client = new Client(['verify' => base_path('cacert.pem')]);
-        $symbols = ['005930', '000660', '035420', '051910', '005380']; // 삼성전자, SK하이닉스, NAVER, LG화학, 현대자동차
+        $symbols = ['005930', '000660', '035420', '051910']; // 삼성전자, SK하이닉스, NAVER, LG화학, 현대자동차
 
         foreach ($symbols as $symbol) {
             $response = $client->get("https://finance.naver.com/item/main.nhn?code={$symbol}");

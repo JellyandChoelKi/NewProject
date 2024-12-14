@@ -4,13 +4,34 @@ body {
     background-color: #f8f9fa;
 }
 
-.product-list {
+/* ProductList.css */
+.header {
+    max-width: 100%;
+    width: 100%;
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #d4e6f9;
+    color: #000;
+}
+.logo>h1>img{
+    width: 256px;
+    height: auto;
+}
+
+
+.section {
+    padding: 20px;
+}
+
+.product-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
     padding: 20px;
 }
+
 
 .product-card {
     background: #fff;
@@ -19,6 +40,7 @@ body {
     overflow: hidden;
     width: 300px;
     text-align: center;
+    padding: 8px 0px;
 }
 
 .product-image {
@@ -61,4 +83,11 @@ body {
 .product-quantity {
     font-size: 1rem;
     color: #555;
+}
+
+/* ProductList.css */
+.product-card img {
+    width: 200px;
+    height: 250px;
+    object-fit: cover; /* 이미지 비율을 유지하며 고정된 크기에 맞춤 */
 }

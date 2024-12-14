@@ -1,7 +1,7 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Auth\RegisterController;
 // 기본 경로
 Route::get('/', function () {
     return view('app');  
@@ -16,3 +16,9 @@ Route::get('/invest', function () {
 Route::get('/products', function () {
     return view('app');
 });
+
+
+Auth::routes();
+
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register']);

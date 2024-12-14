@@ -19,3 +19,12 @@ export interface ProductCardProps {
         image_url: string | null;
     };
 }
+
+export interface NewProduct { 
+    name: string; 
+    description: string; 
+    price: number;
+    discounted_price: number | null; 
+    quantity: number; 
+    image_url: File | null;
+}

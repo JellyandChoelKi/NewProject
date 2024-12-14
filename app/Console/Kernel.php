@@ -19,4 +19,11 @@ class Kernel extends ConsoleKernel
 
         require base_path('routes/console.php');
     }
+
+    // app/Http/Kernel.php
+    protected $routeMiddleware = [
+        // ...
+        'admin' => \App\Http\Middleware\IsAdmin::class,
+    ];
+
 }
