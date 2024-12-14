@@ -1,11 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
-class ApiController extends Controller
+use Illuminate\Support\Facades\Http;
+use App\Http\Controllers\Controller;
+
+# Invest DB,API키
+class InvestController extends Controller
 {
     public function getStockData()
     {
@@ -39,7 +43,7 @@ class ApiController extends Controller
                 'query' => [
                     'vs_currency' => 'usd',
                     'order' => 'market_cap_desc',
-                    'per_page' => 5,
+                    'per_page' => 4,
                     'page' => 1
                 ]
             ]);
@@ -63,6 +67,18 @@ class ApiController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+    public function getExchangeRates()
+    {
+        $apiKey ='984c1929d007643788955775'; // .env 파일에 API 키 추가
+        $response = Http::get("https://v6.exchangerate-api.com/v6/{$apiKey}/latest/USD");
+        if ($response->successful()) {
+            $rates = $response->json()['conversion_rates'];
+            return response()->json([
+                'usdToKrw' => $rates['KRW'],
+                'jpyToKrw' => $rates['JPY'] / $rates['KRW']
+            ]);
+        } else {
+            return response()->json(['error' => 'Failed to fetch exchange rates'], 500);
+        }
+    }
 }
-
-

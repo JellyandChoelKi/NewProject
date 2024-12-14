@@ -2,6 +2,8 @@ import React from 'react';
 import StockDataComponent from './OverseasStockComponent';
 import DomesticStockComponent from './DomesticStockComponent';
 import BitcoinDataComponent from './BitcoinDataComponent';
+import ExchangeRates from './ExchangeRates';
+import '../../../css/invest/invest.css';
 
 const FinancialAnalysis: React.FC = () => {
     return (
@@ -9,6 +11,9 @@ const FinancialAnalysis: React.FC = () => {
             <header>
                 <h1>Investment Analysis</h1>
             </header>
+            <div className="header">
+                <ExchangeRates />
+            </div>
             <div className="main-content">
                 <div className="section">
                     <StockDataComponent />

@@ -1,0 +1,122 @@
+/* 기본 스타일 */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: #343a40;
+}
+
+.main-content {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.section {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 45%;
+}
+
+h2 {
+  font-size: 1.5rem;
+  color: #007bff;
+  margin-bottom: 10px;
+}
+
+/* 환율 부분 추가 */
+.header {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 1200px;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.exchange-rates {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-top: 20px;
+  text-align: center;
+  background-color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.exchange-rates h3 {
+  margin-top: 0;
+  font-size: 1.5em;
+  color: #2980b9;
+}
+
+.exchange-rates p {
+  margin: 10px 0;
+  font-size: 1.2em;
+}
+
+.exchange-rates p span {
+  font-weight: bold;
+  color: #27ae60;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+  .main-content {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .section {
+      width: 90%;
+      margin-bottom: 20px;
+  }
+
+  h1 {
+      font-size: 2rem;
+  }
+
+  h2 {
+      font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+      font-size: 1.75rem;
+  }
+
+  h2 {
+      font-size: 1rem;
+  }
+
+  .exchange-rates h3 {
+      font-size: 1.25em;
+  }
+
+  .exchange-rates p {
+      font-size: 1em;
+  }
+}

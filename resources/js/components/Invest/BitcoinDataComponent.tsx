@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { CryptocurrencyData } from '../types/bitcoin';
+import { CryptocurrencyData } from '../../types/Invest/bitcoin';
 import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
-import '../../css/BitcoinDataComponent.css';
 
 const BitcoinDataComponent: React.FC = () => {
     const [cryptoData, setCryptoData] = useState<CryptocurrencyData[]>([]);
