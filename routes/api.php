@@ -21,5 +21,10 @@ Route::middleware('api')->group(function () {
 });
 
 // 인증 라우트
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])->middleware('web');
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/verify', [AuthController::class, 'verify']); // 메일인증입니다
+Route::post('/send-verification-code', [AuthController::class, 'sendVerificationCode']); // 인증 코드 전송
+Route::post('/verify-code', [AuthController::class, 'verifyCode']); // 인증 코드 확인
+Route::middleware('auth:sanctum')->post('/update-admin', [AuthController::class, 'updateAdmin']);
 Route::middleware('auth:sanctum')->get('/check-admin', [AuthController::class, 'checkAdmin']);

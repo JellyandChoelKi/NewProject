@@ -16,7 +16,7 @@
         "@babel/preset-react": "^7.26.3",
         "@babel/preset-typescript": "^7.26.0",
         "@popperjs/core": "^2.11.6",
-        "axios": "^0.21",
+        "axios": "^1.7.9",
         "babel-loader": "^9.2.1",
         "bootstrap": "^5.2.3",
         "chokidar": "^4.0.1",
@@ -34,6 +34,7 @@
         "vue": "^3.2.37"
     },
     "dependencies": {
+        "@types/axios": "^0.14.4",
         "@types/react": "^18.0.0",
         "@types/react-dom": "^18.0.0",
         "autoprefixer": "^10.4.20",

@@ -27,6 +27,7 @@ class Kernel extends HttpKernel
         ],
     
         'api' => [
+            \Illuminate\Session\Middleware\StartSession::class, // 세션 미들웨어 추가
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,

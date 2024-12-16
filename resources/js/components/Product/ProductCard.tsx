@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProductCardProps } from '../../types/Product/productlist';
+import { ProductCardProps } from '../../types/Product/productlist.d';
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     const price = Number(product.price).toFixed(2);

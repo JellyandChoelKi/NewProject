@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axios from '../../axios';
 import ProductCard from './ProductCard';
 import LoginForm from './LoginForm';
-import { Product,NewProduct} from '../../types/Product/productlist';
+import { Product, NewProduct } from '../../types/Product/productlist';
 import '../../../css/Product/ProductList.css';
+import { useNavigate } from 'react-router-dom';
 
 const ProductList: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
@@ -18,11 +19,12 @@ const ProductList: React.FC = () => {
         quantity: 0,
         image_url: null,
     });
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('/api/products');
+                const response = await axios.get('/products');
                 setProducts(response.data.slice(0, 10));
             } catch (error) {
                 console.error('Error fetching products:', error);
@@ -33,22 +35,22 @@ const ProductList: React.FC = () => {
             const token = localStorage.getItem('token');
             if (token) {
                 try {
-                    const response = await axios.get('/api/check-admin'); 
-                    setIsAdmin(response.data.is_admin);
                     setIsLoggedIn(true);
-                } catch (error: any) {
-                    if (axios.isAxiosError(error)){
-                        if (error.response && error.response.status === 401) {
-                            // console.warn('Unauthorized. Admin status check failed.');
-                            // setWarning('관리자 확인에 실패했습니다. 로그인해 주세요.');
-                        } else {
-                            console.error('Error checking admin status:', error);
+                    const response = await axios.get('/check-admin', {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
                         }
-                    }else{
-                        console.error('Unexpected error:', error);
+                    });
+                    setIsAdmin(response.data.is_admin);
+                } catch (error: any) {
+                    if (error.response && error.response.status === 401) {
+                        console.warn('Unauthorized. Admin status check failed.');
+                        // setWarning('관리자 확인에 실패했습니다. 로그인해 주세요.');
+                    } else {
+                        console.error('Error checking admin status:', error);
                     }
                 }
-            }else{
+            } else {
                 console.warn('No token found. Please log in.');
             }
         };
@@ -76,7 +78,7 @@ const ProductList: React.FC = () => {
         try {
             const token = localStorage.getItem('token');
             if (token) {
-                const response = await axios.post('/api/products', formData, {
+                const response = await axios.post('/products', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                         'Authorization': `Bearer ${token}`,
@@ -95,6 +97,10 @@ const ProductList: React.FC = () => {
         setIsAdmin(false);
     };
 
+    const handleAdminUpdate = () => {
+        navigate('/products/admin-update'); // 관리자 업데이트 페이지로 리디렉션
+    };
+
     return (
         <div>
             <header className="header">
@@ -103,9 +109,12 @@ const ProductList: React.FC = () => {
                 </div>
                 <div className="login-form-container">
                     {isLoggedIn ? (
-                        <button onClick={handleLogout}>로그아웃</button>
+                        <div>
+                            <button className="logout-button" onClick={handleLogout}>로그아웃</button>
+                            {!isAdmin && <button className="update-admin-button" onClick={handleAdminUpdate}>관리자 계정으로 업데이트</button>}
+                        </div>
                     ) : (
-                        <LoginForm />
+                        <LoginForm setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin} /> // 속성 전달
                     )}
                 </div>
             </header>

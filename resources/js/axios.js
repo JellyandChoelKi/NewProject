@@ -14,5 +14,9 @@ const instance = axios.create({
     },
     withCredentials: true // 쿠키 기반 인증을 사용하기 위해 withCredentials 설정
 });
-
+// 토큰이 있는 경우 기본 헤더에 추가
+const token = localStorage.getItem('token');
+if (token) {
+    instance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+}
 export default instance;
