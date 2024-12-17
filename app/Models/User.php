@@ -31,13 +31,4 @@ class User extends Authenticatable
         'is_admin' => 'boolean',
     ];
 
-    // 추가: 생성된 토큰을 반환하는 메서드
-    public function createToken($name, array $abilities = ['*'])
-    {
-        return $this->tokens()->create([
-            'name' => $name,
-            'token' => hash('sha256', $plainTextToken = Str::random(40)),
-            'abilities' => $abilities,
-        ])->accessToken;
-    }
 }

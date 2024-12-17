@@ -5,7 +5,7 @@ export interface Product {
     price: number;
     discounted_price: number | null;  // 여기에 discounted_price 필드를 추가합니다.
     quantity: number;
-    image_url: string | null;
+    image: string | null;
 }
 
 export interface ProductCardProps {
@@ -16,7 +16,7 @@ export interface ProductCardProps {
         price: number;
         discounted_price: number | null;
         quantity: number;
-        image_url: string | null;
+        image: string | null;
     };
 }
 
@@ -26,5 +26,9 @@ export interface NewProduct {
     price: number;
     discounted_price: number | null; 
     quantity: number; 
-    image_url: File | null;
+    image: File | null;
+}
+
+export interface ProductSwiperProps {
+    products: Product[];
 }

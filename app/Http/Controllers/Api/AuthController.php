@@ -27,15 +27,23 @@ class AuthController extends Controller
                 $request->session()->regenerate();
                 Log::info('Session regenerated');
 
-                // 토큰 생성 및 반환
-                $token = $request->user()->createToken('authToken')->plainTextToken;
-                Log::info('Token generated: ' . $token); // 토큰 로그 추가
+                $user = Auth::user();
+                Log::info('Authenticated user:', ['user' => $user]);
 
-                return response()->json([
-                    'message' => 'Login successful',
-                    'user' => Auth::user(),
-                    'token' => $token
-                ], 200);
+                // 토큰 생성 및 반환
+                if($user){
+                    $token = $user->createToken('authToken')->plainTextToken;
+                    Log::info('Token generated: ' . $token); // 토큰 로그 추가
+    
+                    return response()->json([
+                        'message' => 'Login successful',
+                        'user' => Auth::user(),
+                        'token' => $token
+                    ], 200);
+                }else{
+                    Log::warning('Authenticated user is null');
+                    return response()->json(['message' => 'Authenticated user is null'], 401);
+                }
             } else {
                 Log::warning('Authentication failed for user: ' . $request->email);
             }

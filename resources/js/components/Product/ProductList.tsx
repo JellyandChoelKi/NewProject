@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../axios';
-import ProductCard from './ProductCard';
 import LoginForm from './LoginForm';
-import { Product, NewProduct } from '../../types/Product/productlist';
+import ProductAdmin from './ProductAdmin';
+import ProductSwiper from './ProductSwiper';
+import { Product } from '../../types/Product/productlist';
 import '../../../css/Product/ProductList.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,15 +11,7 @@ const ProductList: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [isAdmin, setIsAdmin] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [warning, setWarning] = useState<string | null>(null); // 경고 메시지 상태 추가
-    const [newProduct, setNewProduct] = useState<NewProduct>({
-        name: '',
-        description: '',
-        price: 0,
-        discounted_price: null,
-        quantity: 0,
-        image_url: null,
-    });
+    const [warning, setWarning] = useState<string | null>(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -31,75 +24,8 @@ const ProductList: React.FC = () => {
             }
         };
 
-        const checkAdmin = async () => {
-            const token = localStorage.getItem('token');
-            if (token) {
-                try {
-                    setIsLoggedIn(true);
-                    const response = await axios.get('/check-admin', {
-                        headers: {
-                            'Authorization': `Bearer ${token}`
-                        }
-                    });
-                    setIsAdmin(response.data.is_admin);
-                } catch (error: any) {
-                    if (error.response && error.response.status === 401) {
-                        console.warn('Unauthorized. Admin status check failed.');
-                        // setWarning('관리자 확인에 실패했습니다. 로그인해 주세요.');
-                    } else {
-                        console.error('Error checking admin status:', error);
-                    }
-                }
-            } else {
-                console.warn('No token found. Please log in.');
-            }
-        };
-
         fetchData();
-        checkAdmin();
     }, []);
-
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value, files } = event.target;
-        if (files && files.length > 0) {
-            setNewProduct(prevState => ({ ...prevState, [name]: files[0] }));
-        } else {
-            setNewProduct(prevState => ({ ...prevState, [name]: value }));
-        }
-    };
-
-    const handleSubmit = async (event: React.FormEvent) => {
-        event.preventDefault();
-        const formData = new FormData();
-        Object.keys(newProduct).forEach(key => {
-            formData.append(key, newProduct[key as keyof NewProduct] as any);
-        });
-
-        try {
-            const token = localStorage.getItem('token');
-            if (token) {
-                const response = await axios.post('/products', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                        'Authorization': `Bearer ${token}`,
-                    },
-                });
-                setProducts([response.data, ...products]);
-            }
-        } catch (error) {
-            console.error('Error adding product:', error);
-        }
-    };
-
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        setIsLoggedIn(false);
-        setIsAdmin(false);
-    };
-
-    const handleAdminUpdate = () => {
-        navigate('/products/admin-update'); // 관리자 업데이트 페이지로 리디렉션
-    };
 
     return (
         <div>
@@ -108,53 +34,20 @@ const ProductList: React.FC = () => {
                     <h1><img src="/images/Logo.png" alt="Logo" title="Logo" /></h1>
                 </div>
                 <div className="login-form-container">
-                    {isLoggedIn ? (
-                        <div>
-                            <button className="logout-button" onClick={handleLogout}>로그아웃</button>
-                            {!isAdmin && <button className="update-admin-button" onClick={handleAdminUpdate}>관리자 계정으로 업데이트</button>}
-                        </div>
-                    ) : (
-                        <LoginForm setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin} /> // 속성 전달
-                    )}
+                    <LoginForm
+                        setIsLoggedIn={setIsLoggedIn}
+                        setIsAdmin={setIsAdmin}
+                        setWarning={setWarning}
+                        isLoggedIn={isLoggedIn}
+                        isAdmin={isAdmin}
+                        navigate={navigate}
+                    />
                 </div>
             </header>
             <section className="section">
-                {warning && <div className="warning">{warning}</div>} {/* 경고 메시지 표시 */}
-                {isLoggedIn && isAdmin && (
-                    <form onSubmit={handleSubmit}>
-                        <h2>제품 등록</h2>
-                        <label>
-                            제품명:
-                            <input type="text" name="name" value={newProduct.name} onChange={handleInputChange} />
-                        </label>
-                        <label>
-                            설명:
-                            <input type="text" name="description" value={newProduct.description} onChange={handleInputChange} />
-                        </label>
-                        <label>
-                            가격:
-                            <input type="number" name="price" value={newProduct.price} onChange={handleInputChange} />
-                        </label>
-                        <label>
-                            할인 가격:
-                            <input type="number" name="discounted_price" value={newProduct.discounted_price || ''} onChange={handleInputChange} />
-                        </label>
-                        <label>
-                            수량:
-                            <input type="number" name="quantity" value={newProduct.quantity} onChange={handleInputChange} />
-                        </label>
-                        <label>
-                            이미지:
-                            <input type="file" name="image_url" onChange={handleInputChange} />
-                        </label>
-                        <button type="submit">등록</button>
-                    </form>
-                )}
-                <div className="product-list">
-                    {products.map(product => (
-                        <ProductCard key={product.id} product={product} />
-                    ))}
-                </div>
+                {warning && <div className="warning">{warning}</div>}
+                <ProductAdmin setProducts={setProducts} isAdmin={isAdmin} /> {/* isAdmin 상태 전달 */}
+                <ProductSwiper products={products} /> {/* Swiper 컴포넌트 추가 */}
             </section>
         </div>
     );

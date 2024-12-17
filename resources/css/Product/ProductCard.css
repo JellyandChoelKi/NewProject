@@ -1,0 +1,108 @@
+/* ProductCard.css */
+.product-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 16px;
+    width: 280px; /* 고정된 넓이 */
+    height: 100%; /* 슬라이드 높이에 맞추기 위해 100% 설정 */
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.product-image-container {
+    width: 100%;
+    height: 200px; /* 고정된 높이 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.product-image {
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+}
+
+.product-details {
+    max-width: 100%;
+    padding: 20px;
+}
+
+.product-name {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.product-name:hover {
+    color: #007bff;
+}
+
+.product-description {
+    margin: 10px 0;
+    color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.product-price {
+    font-size: 1.2rem;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.product-price .original-price {
+    text-decoration: line-through;
+    color: #999;
+    margin-right: 5px;
+}
+
+.product-price .discounted-price {
+    color: #d9534f;
+}
+
+.product-quantity {
+    font-size: 1rem;
+    color: #555;
+}
+
+.product-quantity.low-stock {
+    color: #d9534f; /* 빨간색 폰트 */
+}
+
+.low-stock-text {
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.buy-button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.buy-button:hover {
+    background-color: #0056b3;
+}
